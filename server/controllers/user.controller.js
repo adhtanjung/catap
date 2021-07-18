@@ -9,7 +9,7 @@ const handleErr = (req, res, stat, err) => {
 };
 exports.findAll = async (req, res) => {
 	try {
-		const result = await User.find();
+		const result = await User.find({}, "-password -createdAt -updatedAt");
 		return res.status(200).send(result);
 	} catch (err) {
 		return handleErr(null, res, 500, err.message || "Couldn't retrieve users");
@@ -46,59 +46,27 @@ exports.login = async (req, res) => {
 
 	try {
 		const isEmail = validateEmail(usernameOrEmail);
-		if (isEmail) {
-			const fetchUserByEmail = await User.findOne({
-				email: { $eq: usernameOrEmail },
-			});
-			if (!fetchUserByEmail) {
-				return handleErr(null, res, 404, "User not found");
-			} else {
-				const isValid = await argon2.verify(
-					fetchUserByEmail.password,
-					password
-				);
-				if (isValid) {
-					const token = createJWTToken({ ...fetchUserByEmail._doc });
-					const { username, name, email, _id } = fetchUserByEmail;
-					return res.status(200).send({
-						data: {
-							username,
-							name,
-							email,
-							id: _id,
-						},
-						token,
-					});
-				} else {
-					return handleErr(null, res, 400, "Wrong password");
-				}
-			}
+		const fetchedUser = await User.findOne(
+			isEmail ? { email: usernameOrEmail } : { username: usernameOrEmail }
+		);
+		if (!fetchedUser) {
+			return handleErr(null, res, 404, "User not found");
 		} else {
-			const fetchUserByUsername = await User.findOne({
-				username: { $eq: usernameOrEmail },
-			});
-			if (!fetchUserByUsername) {
-				return handleErr(null, res, 404, "User not found");
+			const isValid = await argon2.verify(fetchedUser.password, password);
+			if (isValid) {
+				const token = createJWTToken({ ...fetchedUser._doc });
+				const { username, name, email, _id } = fetchedUser;
+				return res.status(200).send({
+					data: {
+						username,
+						name,
+						email,
+						id: _id,
+					},
+					token,
+				});
 			} else {
-				const isValid = await argon2.verify(
-					fetchUserByUsername.password,
-					password
-				);
-				if (isValid) {
-					const token = createJWTToken({ ...fetchUserByUsername._doc });
-					const { username, name, email, _id } = fetchUserByUsername;
-					return res.status(200).send({
-						data: {
-							username,
-							name,
-							email,
-							id: _id,
-						},
-						token,
-					});
-				} else {
-					return handleErr(null, res, 400, "Wrong password");
-				}
+				return handleErr(null, res, 400, "Wrong password");
 			}
 		}
 	} catch (err) {
