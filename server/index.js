@@ -20,7 +20,10 @@ db.mongoose
 		useFindAndModify: true,
 	})
 	.then((result) => {
-		console.log("mongodb connected");
+		console.log(`
+█▀▄▀█ █▀█ █▄░█ █▀▀ █▀█ █▀▄ █▄▄   █▀▀ █▀█ █▄░█ █▄░█ █▀▀ █▀▀ ▀█▀ █▀▀ █▀▄
+█░▀░█ █▄█ █░▀█ █▄█ █▄█ █▄▀ █▄█   █▄▄ █▄█ █░▀█ █░▀█ ██▄ █▄▄ ░█░ ██▄ █▄▀
+`);
 	})
 	.catch((err) => {
 		console.log("cannot connect to the database", err);
@@ -38,6 +41,8 @@ const PORT = 8000;
 app.get("/", (req, res) => {
 	res.send("<h1> CATAP API </h1>");
 });
+
+require("./routes/user.routes")(app);
 http.listen(PORT, function () {
 	console.log(`
 ░█████╗░░█████╗░████████╗░█████╗░██████╗░  ░█████╗░██████╗░██╗
@@ -46,6 +51,7 @@ http.listen(PORT, function () {
 ██║░░██╗██╔══██║░░░██║░░░██╔══██║██╔═══╝░  ██╔══██║██╔═══╝░██║
 ╚█████╔╝██║░░██║░░░██║░░░██║░░██║██║░░░░░  ██║░░██║██║░░░░░██║
 ░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░░╚═╝╚═╝░░░░░  ╚═╝░░╚═╝╚═╝░░░░░╚═╝
+
 
     listening on port http://localhost:${PORT}`);
 });
