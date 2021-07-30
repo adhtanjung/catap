@@ -43,6 +43,7 @@ exports.create = async (req, res) => {
 
 exports.login = async (req, res) => {
 	const { usernameOrEmail, password } = req.body;
+	console.log(usernameOrEmail, password);
 
 	try {
 		const isEmail = validateEmail(usernameOrEmail);
@@ -70,6 +71,6 @@ exports.login = async (req, res) => {
 			}
 		}
 	} catch (err) {
-		return handleErr(null, res, 500, "Something went wrong");
+		return handleErr(null, res, 500, err.message);
 	}
 };

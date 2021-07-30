@@ -6,9 +6,12 @@ const http = require("http").createServer(app);
 
 const io = require("socket.io")(http);
 
+const cors = require("cors");
+
 const bearerToken = require("express-bearer-token");
 
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(express.json());
 app.use(bearerToken());
 
