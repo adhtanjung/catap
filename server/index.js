@@ -8,12 +8,15 @@ const io = require("socket.io")(http);
 
 const cors = require("cors");
 
+const cookieParser = require("cookie-parser");
+
 const bearerToken = require("express-bearer-token");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
 app.use(bearerToken());
+app.use(cookieParser());
 
 const db = require("./models");
 db.mongoose
@@ -42,6 +45,7 @@ io.on("connection", (socket) => {
 
 const PORT = 8000;
 app.get("/", (req, res) => {
+	console.log(req.cookies);
 	res.send("<h1> CATAP API </h1>");
 });
 

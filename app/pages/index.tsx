@@ -6,10 +6,11 @@ import {
 	useState,
 	Dispatch,
 	SetStateAction,
+	useEffect,
 } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
-import { userSignIn } from "../redux/action";
+import { userSignIn, me } from "../redux/action";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 interface InputInterface {
@@ -40,6 +41,9 @@ export default function Home() {
 			})
 		);
 	};
+	useEffect(() => {
+		dispatch(me());
+	}, []);
 
 	if (user.username) {
 		console.log(router);
