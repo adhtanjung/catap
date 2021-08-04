@@ -1,4 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { createWrapper, HYDRATE } from "next-redux-wrapper";
+import { createSlice } from "@reduxjs/toolkit";
+import { HYDRATE } from "next-redux-wrapper";
 
 const initialState = {
 	username: "",
@@ -19,11 +22,33 @@ const userSlice = createSlice({
 			state.isStatus = "rejected";
 			state.error = action.payload;
 		},
-		logout: () => {
+		logout: (state) => {
 			return initialState;
+			// state.username = "";
+			// state.isStatus = "idle";
+			// state.error = "";
+		},
+	},
+	extraReducers: {
+		[HYDRATE]: (state, action) => {
+			console.log("HYDRATE", state, action.payload);
+			return {
+				...state,
+				...action.payload,
+			};
 		},
 	},
 });
+// const makeStore = () => {
+// 	configureStore({
+// 		reducer: {
+// 			[userSlice.name]: userSlice.reducer,
+// 		},
+// 	});
+// };
+// export const wrapper = createWrapper(makeStore);
 
 export const { signIn, apiFailed, logout } = userSlice.actions;
+// export default userSlice.reducer;
+
 export default userSlice.reducer;

@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { ComponentType } from "react";
 import PropTypes from "prop-types";
 
 const withAuthentication = (WrappedComponent) => {
@@ -11,6 +9,7 @@ const withAuthentication = (WrappedComponent) => {
 		// get user role from redux state
 		const { username } = useSelector((state) => state.user);
 
+		console.log(username);
 		useEffect(() => {
 			// if a there isn't a logged in user and their role has been set to "guest"
 			// then redirect them to "/signin"

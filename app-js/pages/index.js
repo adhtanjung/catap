@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { me, userSignIn } from "../redux/action";
-import { RootState } from "../redux/store";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -30,12 +29,15 @@ export default function Home() {
 		);
 	};
 	useEffect(() => {
-		dispatch(me());
+		const token = localStorage.getItem("token");
+		if (token) {
+			dispatch(me());
+		}
 	}, []);
 
 	if (user.username) {
 		console.log(router);
-		router.replace("/landing");
+		router.push("/landing");
 	}
 
 	return (

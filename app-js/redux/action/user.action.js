@@ -1,4 +1,3 @@
-import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import axios from "axios";
 
@@ -39,7 +38,7 @@ export const me = () => {
 			const res = await axios.post(`${process.env.api}users/me`, {}, headers);
 			dispatch(signIn(res.data.data));
 		} catch (err) {
-			dispatch(apiFailed(err.response.data.message));
+			dispatch(apiFailed(err.response.data.message || err.message));
 		}
 	};
 };
