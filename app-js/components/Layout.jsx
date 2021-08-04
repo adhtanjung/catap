@@ -1,8 +1,5 @@
 import React from "react";
-interface LayoutProps {
-	children: React.ReactNode;
-}
 import styles from "../styles/Layout.module.css";
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children }) {
 	return <div className={styles.layout}>{children}</div>;
 }

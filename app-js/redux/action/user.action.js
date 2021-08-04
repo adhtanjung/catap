@@ -2,14 +2,10 @@ import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import axios from "axios";
 
-import { signIn, apiFailed } from "../store/user.store";
+import { signIn, apiFailed, logout } from "../store/user.store";
 
-interface signInInterface {
-	usernameOrEmail: String;
-	password: String;
-}
-export const userSignIn = (data: signInInterface) => {
-	return async (dispatch: Dispatch) => {
+export const userSignIn = (data) => {
+	return async (dispatch) => {
 		try {
 			const res = await axios.post(`${process.env.api}users/login`, data);
 
@@ -31,7 +27,7 @@ export const userSignIn = (data: signInInterface) => {
 	};
 };
 export const me = () => {
-	return async (dispatch: Dispatch) => {
+	return async (dispatch) => {
 		try {
 			const token = localStorage.getItem("token");
 			console.log(token);
@@ -45,5 +41,12 @@ export const me = () => {
 		} catch (err) {
 			dispatch(apiFailed(err.response.data.message));
 		}
+	};
+};
+
+export const logoutAction = () => {
+	return async (dispatch) => {
+		localStorage.clear();
+		dispatch(logout());
 	};
 };

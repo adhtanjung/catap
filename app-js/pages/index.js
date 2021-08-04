@@ -1,38 +1,26 @@
 import Head from "next/head";
-import Image from "next/image";
-import {
-	FormEvent,
-	ChangeEvent,
-	useState,
-	Dispatch,
-	SetStateAction,
-	useEffect,
-} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/store";
-import { userSignIn, me } from "../redux/action";
-import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
-interface InputInterface {
-	usernameOrEmail: String;
-	password: String;
-}
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { me, userSignIn } from "../redux/action";
+import { RootState } from "../redux/store";
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
 	const dispatch = useDispatch();
 	const router = useRouter();
-	const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
-	const [password, setPassword] = useState<string>("");
+	const [usernameOrEmail, setUsernameOrEmail] = useState("");
+	const [password, setPassword] = useState("");
 
-	const user = useSelector((state: RootState) => state.user);
+	const user = useSelector((state) => state.user);
 
-	const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChangePassword = (e) => {
 		setPassword(e.target.value);
 	};
-	const handleChangeUsernameOrEmail = (e: ChangeEvent<HTMLInputElement>) => {
+	const handleChangeUsernameOrEmail = (e) => {
 		setUsernameOrEmail(e.target.value);
 	};
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(
 			userSignIn({

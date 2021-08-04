@@ -1,35 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type userType = {
-	username: String;
-	isStatus: String;
-	error: String;
-};
-
-const initialState: userType = {
+const initialState = {
 	username: "",
 	isStatus: "idle",
 	error: "",
 };
-interface apiFailedInterface {
-	error: String;
-}
 const userSlice = createSlice({
 	name: "user",
 	initialState,
 
 	reducers: {
-		signIn: (state: any, action: PayloadAction<userType>) => {
+		signIn: (state, action) => {
 			state.username = action.payload.username;
 			state.isStatus = "resolved";
 			state.error = "";
 		},
-		apiFailed: (state: any, action: PayloadAction<string>) => {
+		apiFailed: (state, action) => {
 			state.isStatus = "rejected";
 			state.error = action.payload;
+		},
+		logout: () => {
+			return initialState;
 		},
 	},
 });
 
-export const { signIn, apiFailed } = userSlice.actions;
+export const { signIn, apiFailed, logout } = userSlice.actions;
 export default userSlice.reducer;
