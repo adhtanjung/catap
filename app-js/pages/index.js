@@ -28,17 +28,17 @@ export default function Home() {
 			})
 		);
 	};
-	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token) {
-			dispatch(me());
-		}
-	}, []);
+	// useEffect(() => {
+	// 	const token = localStorage.getItem("token");
+	// 	if (token) {
+	// 		dispatch(me());
+	// 	}
+	// }, []);
 
-	if (user.username) {
-		console.log(router);
-		router.push("/landing");
-	}
+	// if (user.username) {
+	// 	console.log(router);
+	// 	router.push("/landing");
+	// }
 
 	return (
 		<div className={styles.container}>

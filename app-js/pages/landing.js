@@ -22,5 +22,5 @@ const Landing = (props) => {
 		</div>
 	);
 };
-export default withAuthentication(Landing);
+export default withAuthentication(Landing, { pathAfterFailure: "/" });
 // export default function withAuthentication(Landing)(props)

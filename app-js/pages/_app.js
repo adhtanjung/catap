@@ -9,21 +9,18 @@ import { wrapper } from "../redux/store";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps, store }) {
-	const Router = useRouter();
+	const router = useRouter();
 	const { username } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		const token = localStorage.getItem("token");
+		if (username) {
+			router.replace("/landing");
+		}
 		if (token) {
 			dispatch(me());
 		}
-		if (username) {
-			Router.push("/landing");
-		}
-	}, []);
-	// if (username) {
-	// 	Router.replace("/landing");
-	// }
+	}, [username]);
 	return (
 		<>
 			<Navbar />
